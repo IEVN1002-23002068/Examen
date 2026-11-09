@@ -1,0 +1,95 @@
+<div class="rounded-lg border-2 border-red-500 bg-white p-5 shadow-sm">
+  <form [formGroup]="formGroup" (ngSubmit)="agregar()">
+
+    <!-- Datos del cliente -->
+    <h2 class="mb-3 text-lg font-bold text-gray-900">Datos del cliente</h2>
+
+    <div class="grid gap-4 md:grid-cols-4">
+
+      <div>
+        <label for="nombre" class="mb-1 block text-sm font-medium text-gray-900">Nombre</label>
+        <input id="nombre" type="text" formControlName="nombre" placeholder="Nombre completo"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
+        @if (invalido('nombre')) {
+          <p class="mt-1 text-xs text-red-600">El nombre es obligatorio</p>
+        }
+      </div>
+
+      <div>
+        <label for="direccion" class="mb-1 block text-sm font-medium text-gray-900">Dirección</label>
+        <input id="direccion" type="text" formControlName="direccion" placeholder="Dirección"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
+        @if (invalido('direccion')) {
+          <p class="mt-1 text-xs text-red-600">La dirección es obligatoria</p>
+        }
+      </div>
+
+      <div>
+        <label for="telefono" class="mb-1 block text-sm font-medium text-gray-900">Teléfono</label>
+        <input id="telefono" type="text" formControlName="telefono" placeholder="477-787-23"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
+        @if (invalido('telefono')) {
+          <p class="mt-1 text-xs text-red-600">Teléfono no válido (7 a 15 dígitos)</p>
+        }
+      </div>
+
+      <div>
+        <label for="fecha" class="mb-1 block text-sm font-medium text-gray-900">Fecha de compra</label>
+        <input id="fecha" type="date" formControlName="fecha"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
+        @if (invalido('fecha')) {
+          <p class="mt-1 text-xs text-red-600">La fecha es obligatoria</p>
+        }
+      </div>
+
+    </div>
+
+    <!-- Datos de la pizza -->
+    <h2 class="mb-3 mt-6 text-lg font-bold text-gray-900">Pizza</h2>
+
+    <div class="grid gap-4 md:grid-cols-3">
+
+      <!-- Tamaño -->
+      <fieldset class="rounded-lg border border-gray-200 p-3">
+        <legend class="px-1 text-sm font-medium text-gray-900">Tamaño pizza</legend>
+        @for (t of tamanos; track t.valor) {
+          <label class="mb-1 flex items-center gap-2 text-sm text-gray-800">
+            <input type="radio" formControlName="tamano" [value]="t.valor">
+            {{ t.valor }} ${{ t.precio }}
+          </label>
+        }
+        @if (invalido('tamano')) {
+          <p class="mt-1 text-xs text-red-600">Selecciona un tamaño</p>
+        }
+      </fieldset>
+
+      <!-- Ingredientes -->
+      <fieldset class="rounded-lg border border-gray-200 p-3">
+        <legend class="px-1 text-sm font-medium text-gray-900">Ingredientes</legend>
+        @for (i of ingredientes; track i.control) {
+          <label class="mb-1 flex items-center gap-2 text-sm text-gray-800">
+            <input type="checkbox" [formControlName]="i.control">
+            {{ i.nombre }} ${{ i.precio }}
+          </label>
+        }
+      </fieldset>
+
+      <!-- Número de pizzas -->
+      <div>
+        <label for="numPizzas" class="mb-1 block text-sm font-medium text-gray-900">Núm. de pizzas</label>
+        <input id="numPizzas" type="number" min="1" formControlName="numPizzas"
+          class="mb-3 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
+        @if (invalido('numPizzas')) {
+          <p class="-mt-2 mb-3 text-xs text-red-600">Indica 1 o más pizzas</p>
+        }
+
+        <button type="submit"
+          class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300">
+          Agregar
+        </button>
+      </div>
+
+    </div>
+
+  </form>
+</div>

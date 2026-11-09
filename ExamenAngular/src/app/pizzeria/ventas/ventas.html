@@ -1,0 +1,65 @@
+<div class="rounded-lg border-2 border-yellow-400 bg-white p-5 shadow-sm">
+
+  <h2 class="mb-3 text-lg font-bold text-gray-900">Ventas</h2>
+
+  <form [formGroup]="formGroup" (ngSubmit)="consultar()" class="mb-4 space-y-3">
+
+    <div class="flex gap-6 text-sm text-gray-800">
+      <label class="flex items-center gap-2">
+        <input type="radio" formControlName="tipo" value="dia"> Por día de la semana
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="radio" formControlName="tipo" value="mes"> Por mes
+      </label>
+    </div>
+
+    <div class="flex gap-2">
+      <input
+        type="text"
+        formControlName="valor"
+        [placeholder]="formGroup.value.tipo === 'dia' ? 'Ej. lunes' : 'Ej. noviembre'"
+        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
+
+      <button type="submit"
+        class="rounded-lg bg-yellow-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-yellow-600 focus:outline-none focus:ring-4 focus:ring-yellow-300">
+        Consultar
+      </button>
+    </div>
+
+    @if (formGroup.get('valor')?.invalid && formGroup.get('valor')?.touched) {
+      <p class="text-xs text-red-600">Escribe un día de la semana o un mes</p>
+    }
+  </form>
+
+  @if (consultado()) {
+    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+
+      <p class="mb-2 text-sm font-semibold capitalize text-gray-700">{{ titulo() }}</p>
+
+      @if (ventas().length === 0) {
+        <p class="text-sm text-gray-500">No hay ventas registradas.</p>
+      } @else {
+        <ul class="divide-y divide-gray-200">
+          @for (v of ventas(); track v.id) {
+            <li class="flex items-center justify-between gap-2 py-2 text-sm">
+              <span class="font-semibold text-gray-900">
+                {{ v.nombre }}
+                <span class="font-normal text-gray-500">({{ v.fecha }})</span>
+              </span>
+              <span class="font-semibold">total ${{ v.total }}</span>
+              <button type="button" (click)="verDetalle(v.id)"
+                class="rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-800">
+                Detalle
+              </button>
+            </li>
+          }
+        </ul>
+
+        <p class="mt-4 text-center text-lg font-bold text-gray-900">
+          Ventas totales: ${{ totalAcumulado() }}
+        </p>
+      }
+    </div>
+  }
+
+</div>

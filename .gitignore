@@ -1,0 +1,9 @@
+node_modules/
+.angular/
+dist/
+.env/
+venv/
+__pycache__/
+*.pyc
+.env.*
+!.env.example
